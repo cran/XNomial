@@ -1,0 +1,14 @@
+9c8193553e10810007f2e841a42d0bcb *DESCRIPTION
+f6b4122276d0fc9f5eda0259b6f86c0d *NAMESPACE
+76f8859a0ab244ccae5f17b45f8273f1 *R/xmonte.R
+ae202b36b7080bd0975474d060687fb9 *R/xmulti.R
+ea25dd9684219f5a94ec9b4bffb3cfd5 *R/xtras.R
+2ece4caaa020581b640e475b5ee25d1a *build/vignette.rds
+de8f0860cbb1a0481be1fb811923c182 *inst/doc/XNomial.R
+841bf035dbd8bab9647c89b1afc96220 *inst/doc/XNomial.Rmd
+687b46e24ca9c5c07581104c0f5b42f2 *inst/doc/XNomial.html
+0a3008bb4f05952e30419fa1ac0f5a6d *man/xmonte.Rd
+0ba4dee725910eb3f519f55a0aeabbaa *man/xmulti.Rd
+b8d8eea6157c7527e48f65f8b1d6a41d *src/XNenumerated.c
+44a022d335715d53d689f0dc255cbc3d *src/XNmonte.c
+841bf035dbd8bab9647c89b1afc96220 *vignettes/XNomial.Rmd
