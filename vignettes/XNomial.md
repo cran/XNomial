@@ -1,42 +1,40 @@
 <!--
-%\VignetteEngine{knitr::rmarkdown}
+%\VignetteEngine{knitr}
 %\VignetteIndexEntry{XNomial}
 -->
-```{r setup, include=FALSE}
-library(knitr)
-library(XNomial)
-version <- packageDescription("XNomial", fields = "Version")
-opts_chunk$set(fig.width=8, fig.height=5)
-set.seed(60823316) 
-```
+
+
+
 
 <STYLE type="text/css">
   h1,h2,h3,h4,h5 { 
     font-family: palatino, georgia, serif;
-    color: Maroon;
+    color: royalblue;
   }
     h1, h6{
     text-align: center;
   }
-  h1{line-height: 50px}
   body{
-    font-size: 1.3em;
-    line-height: 21px;
+    font-size: 0.9em;
+    line-height: 23px;
   }
   h3{
   font-weight: normal;
-  font-size: 1.6em;
-  line-height: 24px;
   }
   h6{
-        font-size: 1.0em;
+        font-size: 0.9em;
         font-weight: normal;
-        line-height: 0.8em;      
+        line-height: 5px;      
    }
    hr{
      border-top-style: solid;
      border-top-width: medium;
    }
+  code {
+    font-size: 80%;
+    line-height: 140%;
+    border: 1px solid #ccc;
+  }
    @media print{
   hr { 
       visibility: inherit;
@@ -52,7 +50,6 @@ XNomial -- Exact Test For Multinomial
 
 ###### William R. Engels  <wrengels@wisc.edu>  
 ###### University of Wisconsin, Madison -- Genetics Department
-###### version `r version`
 * * *
 ### Contents
 * Purpose -- [1](#purp)
@@ -123,35 +120,72 @@ Simply put, `xmulti` is always preferable except when it takes too long. If it d
 
 The Austrian monk performed some crosses with garden pea plants. In one experiment, he counted 556 seeds and classified them according to shape and color. The four categories were *round/yellow, round/green, wrinkled/yellow* and *wrinkled/green*, and his counts were 315, 108, 101 and 32 respectively.
 
-```{r peasF2}
+
+```r
 peasF2 <- c(315, 108, 101, 32)
 getwd()
 ```
+
+```
+## [1] "/Users/WRE/DropBox/XNomial/pkg/vignettes"
+```
+
 According to his genetics model, these types should have appeared in the ratio of 9:3:3:1, so
-```{r peasExp}
+
+```r
 peasExp <- c(9, 3, 3, 1)
 ```
+
 How well did his data fit the hypothesis? We can test it with `xmulti`:
 
 
-```{r call1}
+
+```r
 xmulti(peasF2, peasExp)
 ```
+
+```
+## 
+## P value (LLR) = 0.9261
+```
+
 Such a high $P$ value means Mendel's data fit the model *better* than expected. (The tendency for Mendel's results to fit *too* well has not escaped the attention of historians!)
 
 We can ask for a more detailed report as follows:
 
-```{r call2}
-xmulti(peasF2, peasExp, detail=3)
+
+```r
+xmulti(peasF2, peasExp, detail = 3)
 ```
+
+```
+## 
+## P value  (LLR)  =  0.9261
+## P value (Prob)  =  0.9382
+## P value (Chisq) =  0.9272
+## 
+## Observed:  315 108 101 32 
+## Expected ratio:  9 3 3 1 
+## Total number of tables:  28956759
+```
+
 Now it is clear that all three measures of goodness-of-fit give $P$ values in the same ballpark. This report also shows how many possible outcomes `xmulti` had to look at. Namely ...
 $$latex
 N ={{556 + 4 - 1} \choose {4-1}} = 28,956,759
 $$
 If we want to see the shape of the `LLR`'s distribution, we can ask `xmulti` to plot the histogram as follows:
-```{r peaPlot}
-xmulti(peasF2, peasExp, histobins=T)
+
+```r
+xmulti(peasF2, peasExp, histobins = T)
 ```
+
+```
+## 
+## P value (LLR) = 0.9261
+```
+
+![plot of chunk peaPlot](figure/peaPlot.png) 
+
 
 The blue curve shows that the asymptotic ${\chi ^2}$ distribution with 3 degrees of freedom is not a bad fit in this case.
 
@@ -167,47 +201,89 @@ Now imagine that Mendel looked closer at his 556 seeds and noticed that the ones
 6. *wrinkled/green*
 
 ... and the reclassified numbers might be:
-```{r rePeas}
+
+```r
 rePeas <- c(230, 85, 108, 80, 21, 32)
 ```
+
 in the same order. If we assume that the two shades of yellow represent peas that were homozygous (*light-yellow*) or heterozygous (*dark-yellow*) for the *yellow* allele, then from standard genetics we expect the ratios to be 6:3:3:2:1:1.
-```{r reExp}
-reExp <- c(6,3,3,2,1,1)
+
+```r
+reExp <- c(6, 3, 3, 2, 1, 1)
 ```
+
 But when we try to test these results using `xmulti` we receive a warning that a full enumeration of all the possible ways to classify 556 seeds into 6 types is very large. In fact,
 $$latex
 N ={{556 + 6 - 1} \choose {6-1}} = 454,852,770,372
 $$
 and it would take a computer like mine more than an hour to analyze them all. Therefore, a better option would be to use `xmonte` to look at just a random sample of the nearly half-a-trillion possible outcomes.
-```{r callMonte}
+
+```r
 xmonte(rePeas, reExp)
 ```
+
+```
+## 
+## P value (LLR) = 0.01495 ± 0.0003838
+```
+
 Note that `xmonte` reports a standard error along with the estimated $P$ value. This is because we are only estimating $P$ based on a random sample. If you need a more accurate estimate, simply increase the parameter `ntrials`. As before, we can get a more detailed report and/or a histogram plot:
 
-```{r plotMonte}
-xmonte(rePeas, reExp, detail=3, histobins=T)
+
+```r
+xmonte(rePeas, reExp, detail = 3, histobins = T)
 ```
+
+```
+## 
+## P value (LLR) = 0.01495 ± 0.0003838
+##  1e+05  random trials
+##  Observed:  230 85 108 80 21 32 
+##  Expected Ratio:  6 3 3 2 1 1
+```
+
+![plot of chunk plotMonte](figure/plotMonte.png) 
+
 The red area of the histogram represents the $P$ value. In this case, $P$ is much smaller than in Mendel's real data, indicating that the fit is not nearly so good, and we will want to modify our hypothesis. Perhaps the two shades of *yellow* were too close for the human eye to distinguish accurately and misclassifications occurred.
 
-
-### <a name="e3"></a>**Example 3:** Multinomial with Poisson probabilities
+<a name="e3"></a>
+### **Example 3:** Multinomial with Poisson probabilities
 
 Here is another example, also from genetics. Suppose you treat 100 chromosomes with a mutagen dose calibrated to deliver an average of 0.2 mutations per chromosome.  You find that 84 of them received no mutations, 11 had exactly one mutation, 4 had exactly 2 mutations, and one chromosome had more than 2 but you could not count how many. So the observed counts are:
-```{r obsMut}
+
+```r
 obsMut <- c(84, 11, 4, 1)
 ```
+
 You wish to test whether these numbers are consistent with the number of mutations per chromosome being Poisson distributed with an average of 0.2 per chromosome. 
 
 To get the expected proportions in each category, use the Poisson distribution. Find the first three directly, then get the final one by subtraction:
-```{r probMut}
-probMut <- dpois(0:2, 0.2);
-probMut[4] <- 1 - sum(probMut); 
+
+```r
+probMut <- dpois(0:2, 0.2)
+probMut[4] <- 1 - sum(probMut)
 ```
+
 Now, test the hypothesis using `xmulti`
 
-```{r plotMut}
-xmulti(obsMut, probMut, detail=3, histobins=T)
+
+```r
+xmulti(obsMut, probMut, detail = 3, histobins = T)
 ```
+
+```
+## 
+## P value  (LLR)  =  0.04799
+## P value (Prob)  =  0.01991
+## P value (Chisq) =  0.01875
+## 
+## Observed:  84 11 4 1 
+## Expected ratio:  0.8187 0.1637 0.01637 0.001148 
+## Total number of tables:  176851
+```
+
+![plot of chunk plotMut](figure/plotMut.png) 
+
 
 The exact $P$ value of 0.048 is considerably smaller than the asymptotic value one would obtain, 0.071. By looking at the histogram we can see that this discrepancy is not unexpected given how different the actual distribution is compared with the blue curve.
 
