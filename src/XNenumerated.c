@@ -36,7 +36,7 @@
     #include "XNenumerated.h"
 
     #define R_pow_di pow  // The following defines convert R calls to normal C
-    #define Calloc(x,y) calloc(x,sizeof(y))
+    #define R_Calloc(x,y) calloc(x,sizeof(y))
     #define Free free
     #define Rprintf printf
     #define lgammafn lgamma
@@ -184,13 +184,13 @@ void exactMultinomialTest (int * obs,
     for (int i = 0; i < (*nn); i++) n += obs[i];
     
     // get memory for arrays
-    probs = Calloc((*nn), double);
-    expected = Calloc((*nn), double);
+    probs = R_Calloc((*nn), double);
+    expected = R_Calloc((*nn), double);
     unsigned maxlookup = n + 1;
-    flookup0 = Calloc(maxlookup, double);
-    flookup1 = Calloc(maxlookup, double);
-    clookup0 = Calloc(maxlookup, double);
-    clookup1 = Calloc(maxlookup, double);
+    flookup0 = R_Calloc(maxlookup, double);
+    flookup1 = R_Calloc(maxlookup, double);
+    clookup0 = R_Calloc(maxlookup, double);
+    clookup1 = R_Calloc(maxlookup, double);
     
     // Get probs and expecteds. The ones provided might not sum to one, so normalize them
     double exum = 0;
@@ -293,10 +293,10 @@ void exactMultinomialTest (int * obs,
     *pChi = pvalChi;
 
     // Release memory
-    Free(flookup0);
-    Free(flookup1);
-    Free(clookup0);
-    Free(clookup1);
-    Free(probs);
-    Free(expected);
+    R_Free(flookup0);
+    R_Free(flookup1);
+    R_Free(clookup0);
+    R_Free(clookup1);
+    R_Free(probs);
+    R_Free(expected);
 }

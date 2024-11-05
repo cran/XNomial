@@ -2,10 +2,12 @@ Package: XNomial
 Type: Package
 Title: Exact Goodness-of-Fit Test for Multinomial Data with Fixed
         Probabilities
-Version: 1.0.4
+Version: 1.0.4.1
 Date: 2015-12-22
-Author: Bill Engels <wrengels@wisc.edu>
-Maintainer: Bill Engels <wrengels@wisc.edu>
+Authors@R: person(given = "Bill",
+                  family = "Engels",
+                  role = c("aut", "cre"),
+                  email = "wrengels@wisc.edu")
 Description: Tests whether a set of counts fit a given expected ratio. For
     example, a genetic cross might be expected to produce four types in the
     relative frequencies of 9:3:3:1. To see whether a set of observed counts
@@ -22,6 +24,8 @@ Suggests: knitr
 NeedsCompilation: yes
 License: GPL
 RoxygenNote: 5.0.0
-Packaged: 2015-12-23 23:08:28 UTC; WRE
+Packaged: 2024-11-05 05:33:50 UTC; hornik
 Repository: CRAN
-Date/Publication: 2015-12-24 08:19:02
+Date/Publication: 2024-11-05 05:38:55 UTC
+Author: Bill Engels [aut, cre]
+Maintainer: Bill Engels <wrengels@wisc.edu>

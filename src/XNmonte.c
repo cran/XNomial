@@ -15,7 +15,7 @@
     #include "XNmonte.h"
 
     #define R_pow_di pow  // The following defines convert R calls to normal C
-    #define Calloc(x,y) calloc(x,sizeof(y))
+    #define R_Calloc(x,y) calloc(x,sizeof(y))
     #define Free free
     #define Rprintf printf
     #define lgammafn lgamma
@@ -68,10 +68,10 @@ void montenomialTest  (int * obs,
                        double * histoBounds,
                        int * histoData) {
     
-    double * probs = Calloc(*nn, double);
-    double * lprobs = Calloc(*nn, double);
+    double * probs = R_Calloc(*nn, double);
+    double * lprobs = R_Calloc(*nn, double);
     double gnp1; // lgamma(n+1)
-    double * expected = Calloc(*nn, double);
+    double * expected = R_Calloc(*nn, double);
     double statLeft, statSpan; // for histogram
     int hdex; // for histogram
 
@@ -115,7 +115,7 @@ void montenomialTest  (int * obs,
     *obsChiStat /= adj;
     
     gnp1 = lgammafn(1. + n);
-    unsigned * rm = Calloc(*nn, unsigned); // Where we'll put the random multinomial
+    unsigned * rm = R_Calloc(*nn, unsigned); // Where we'll put the random multinomial
     double pr, stat;
     double lobsProb = 0;
     for (int i = 0; i < *nn; i++) {
@@ -207,8 +207,8 @@ void montenomialTest  (int * obs,
     *pChi /= *ntrials;
     
 //    PutRNGstate();
-    Free(probs); Free(expected);
-    Free(lprobs);
-    Free(rm);
+    R_Free(probs); R_Free(expected);
+    R_Free(lprobs);
+    R_Free(rm);
 }
 
